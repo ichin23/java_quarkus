@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s # Frequência de coleta (5s é bom para testes; em prod use 15s ou 30s)
+
+scrape_configs:
+  - job_name: 'quarkus-app'
+    metrics_path: '/q/metrics'
+    static_configs:
+      # Se o Quarkus estiver rodando no host (fora do Docker) e o Prometheus no Docker:
+      - targets: ['host.docker.internal:8080']
+      # Se ambos estiverem no mesmo docker-compose, use o nome do serviço: ['quarkus-app:8080']
