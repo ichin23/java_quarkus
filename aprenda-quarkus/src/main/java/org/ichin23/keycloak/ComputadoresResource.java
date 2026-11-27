@@ -1,6 +1,8 @@
 package org.ichin23.keycloak;
 
+import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -14,6 +16,9 @@ import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 @Path("/computadores")
 public class ComputadoresResource {
 
+    @Inject
+    SecurityIdentity identity;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String publico(){
@@ -26,6 +31,6 @@ public class ComputadoresResource {
     @RolesAllowed("user")
     @SecurityRequirement(name = "quarkus-oauth")
     public String privado(){
-        return "hello privado ";
+        return "hello privado "+identity.getPrincipal().getName();
     }
 }
